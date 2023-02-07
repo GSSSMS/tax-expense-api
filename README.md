@@ -1,4 +1,4 @@
-# Template for Backend Express
+# This is an API for tracking business expenses
 
 The Golden Rule:
 🦸 🦸‍♂️ Stop starting and start finishing. 🏁

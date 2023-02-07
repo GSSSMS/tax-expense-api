@@ -4,12 +4,13 @@ import morgan from 'morgan';
 import { notFoundHandler } from './middleware/not-found';
 import { errorHandler } from './middleware/error';
 
+
 const app: Express = express();
 
 
 // Built in middleware
 app.use(express.json());
-app.use(morgan('tiny'));
+app.use(morgan('combined'));
 app.use(cookieParser());
 
 // App routes
