@@ -1,5 +1,4 @@
-const app = require('./lib/app');
-const pool = require('./sql/pool');
+import app from './lib/app';
 
 const PORT = process.env.PORT || 7890;
 
@@ -9,5 +8,4 @@ app.listen(PORT, async () => {
 
 process.on('exit', () => {
   console.info('👋  Goodbye!');
-  pool.end();
 });
