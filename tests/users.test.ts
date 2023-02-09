@@ -5,9 +5,13 @@ import request from "supertest";
 
 const mockUser: User = {
     id: 1,
-    email: 'test@test.com',
+    email: 'test@test1.com',
     password: '123456'
 }
+
+beforeEach(async () => {
+    await new PrismaClient().$queryRaw`DELETE FROM "User";`
+})
 
 describe('user-login-routes', () => {
     it('#POST creates a user', async () => {
