@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+import prisma from '../lib/prisma';
 import app from '../lib/app';
 import request from 'supertest';
 import { truncate } from './test-utils/truncate';
@@ -9,7 +9,7 @@ const mockUser: createUserDto = {
 };
 
 beforeEach(async () => {
-  await truncate(['User'], new PrismaClient());
+  await truncate(['User'], prisma);
 });
 
 describe('user-login-routes', () => {
