@@ -29,13 +29,8 @@ export default class UserService {
         email,
       },
     });
-    console.log(user);
 
-    if (!user) throw createError(404, 'user not found');
-    console.log(user.password, password);
-
-    const compare = compareSync(password, user.password);
-    console.log(compare);
+    if (!user) throw createError(404, 'User not found');
 
     if (!compareSync(password, user.password)) {
       throw createError(401, 'Invalid password or username');

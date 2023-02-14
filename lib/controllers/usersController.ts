@@ -5,7 +5,6 @@ import { COOKIE_NAME } from '../config';
 import { Prisma } from '@prisma/client';
 import createHttpError from 'http-errors';
 const ONE_DAY_IN_MS = 1000 * 60 * 60 * 60;
-
 export default Router()
   .post('/', async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -22,8 +21,6 @@ export default Router()
   })
   .get('/:id', async (req: Request, res: Response, next: NextFunction) => {
     try {
-      console.log('Params', req.params);
-
       const { id } = req.params;
       const user = await prisma.user.findUnique({
         where: {
@@ -35,18 +32,15 @@ export default Router()
       if (!user) throw createHttpError(404, 'user not Found');
       res.json(user);
     } catch (error) {
-      console.log(error);
-
       next(error);
     }
   })
   .post(
     '/sessions',
     async (req: Request, res: Response, next: NextFunction) => {
-      console.log(req.body);
-
       try {
         const [user, token] = await UserService.signInUser(req.body);
+
         res
           .cookie(COOKIE_NAME, token, {
             httpOnly: true,

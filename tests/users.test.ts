@@ -3,6 +3,7 @@ import app from '../lib/app';
 import request from 'supertest';
 import { truncate } from './test-utils/truncate';
 import { createUserDto } from '../lib/dtos/users.dto';
+
 const mockUser: createUserDto = {
   email: 'test@test1.com',
   password: '123456',
@@ -44,13 +45,8 @@ describe('user-auth-routes', () => {
   });
 
   it.only('logs in a user', async () => {
-    await prisma.user.create({
-      data: { ...mockUser },
-    });
+    await request(app).post('/users').send(mockUser);
     const res = await agent.post('/users/sessions').send(mockUser);
-
     expect(res.status).toBe(200);
-
-    console.log(res);
   });
 });
