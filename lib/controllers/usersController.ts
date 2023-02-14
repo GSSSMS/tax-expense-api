@@ -1,9 +1,16 @@
-import { Router, Request, Response, NextFunction } from 'express';
+import {
+  Router,
+  Request,
+  Response,
+  NextFunction,
+  RequestHandler,
+} from 'express';
 import prisma from '../prisma';
 import UserService from '../services/UserService';
 import { COOKIE_NAME } from '../config';
 import { Prisma } from '@prisma/client';
 import createHttpError from 'http-errors';
+import authenticate from '../middleware/authenticate';
 const ONE_DAY_IN_MS = 1000 * 60 * 60 * 60;
 export default Router()
   .post('/', async (req: Request, res: Response, next: NextFunction) => {
@@ -19,22 +26,26 @@ export default Router()
       next(error);
     }
   })
-  .get('/:id', async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const { id } = req.params;
-      const user = await prisma.user.findUnique({
-        where: {
-          id: Number(id),
-        },
-        select: selectUser,
-      });
+  .get(
+    '/:id',
+    authenticate as RequestHandler,
+    async (req: Request, res: Response, next: NextFunction) => {
+      try {
+        const { id } = req.params;
+        const user = await prisma.user.findUnique({
+          where: {
+            id: Number(id),
+          },
+          select: selectUser,
+        });
 
-      if (!user) throw createHttpError(404, 'user not Found');
-      res.json(user);
-    } catch (error) {
-      next(error);
+        if (!user) throw createHttpError(404, 'user not Found');
+        res.json(user);
+      } catch (error) {
+        next(error);
+      }
     }
-  })
+  )
   .post(
     '/sessions',
     async (req: Request, res: Response, next: NextFunction) => {
