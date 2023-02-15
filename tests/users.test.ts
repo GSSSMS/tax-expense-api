@@ -49,7 +49,7 @@ describe('user-auth-routes', () => {
     expect(res.status).toBe(200);
   });
 
-  it.only('#DELETE /users/sessions deletes a user session', async () => {
+  it('#DELETE /users/sessions deletes a user session', async () => {
     const user = await registerAndLogin(mockUser, agent);
     const logout = await agent.delete('/users/sessions');
     expect(logout.status).toBe(200);

@@ -4,6 +4,7 @@ import morgan from 'morgan';
 import { notFoundHandler } from './middleware/not-found';
 import { errorHandler } from './middleware/error';
 import usersController from './controllers/usersController';
+import businessController from './controllers/businessController';
 
 const app: Express = express();
 
@@ -14,7 +15,7 @@ app.use(cookieParser());
 
 // App routes
 app.use('/users', usersController);
-
+app.use('/business', businessController);
 // Error handling & 404 middleware for when
 // a request doesn't match any app routes
 app.use(notFoundHandler);
