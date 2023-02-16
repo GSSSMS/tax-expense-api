@@ -35,7 +35,7 @@ describe('user-auth-routes', () => {
     expect(res.body).toEqual(user);
   });
 
-  it.only('#GET/:id returns 401 if not logged in', async () => {
+  it('#GET/:id returns 401 if not logged in', async () => {
     const user = await prisma.user.create({
       data: mockUser,
     });
@@ -47,5 +47,17 @@ describe('user-auth-routes', () => {
     await request(app).post('/users').send(mockUser);
     const res = await agent.post('/users/sessions').send(mockUser);
     expect(res.status).toBe(200);
+  });
+
+  it('#DELETE /users/sessions deletes a user session', async () => {
+    const user = await registerAndLogin(mockUser, agent);
+    const logout = await agent.delete('/users/sessions');
+    expect(logout.status).toBe(200);
+    expect(logout.body).toEqual({
+      success: true,
+      message: 'Sign out successful',
+    });
+    const res = await agent.get(`/users/${user.id}`);
+    expect(res.status).toBe(401);
   });
 });

@@ -62,6 +62,18 @@ export default Router()
         next(error);
       }
     }
+  )
+  .delete(
+    '/sessions',
+    async (req: Request, res: Response, next: NextFunction) => {
+      try {
+        res
+          .clearCookie(COOKIE_NAME)
+          .json({ success: true, message: 'Sign out successful' });
+      } catch (error) {
+        next(error);
+      }
+    }
   );
 
 const selectUser: Prisma.UserSelect = { id: true, email: true };
