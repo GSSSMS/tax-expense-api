@@ -37,7 +37,7 @@ describe('business-routes', () => {
     expect(res.status).toBe(200);
     expect(res.body).toEqual({
       id: expect.any(Number),
-      userId: expect(user.id),
+      userId: user.id,
       ...mockBusiness,
     });
   });
