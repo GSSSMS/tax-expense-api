@@ -1,4 +1,4 @@
-export interface UserWithoutPassword {
-    id: Number
-    email: string
+export interface UserSelect {
+  id: number;
+  email: string;
 }
