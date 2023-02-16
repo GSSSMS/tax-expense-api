@@ -10,11 +10,8 @@ class BusinessService {
     name,
     currency,
   }: createBusinessWithUserDto): Promise<Business> {
-    const isValidCurrency = currencyCodes.some(
-      (code: Currency) => code.cc === currency
-    );
-
-    if (!isValidCurrency) throw createHttpError(403, 'Invalid Currency');
+    if (!isValidCurrency(currencyCodes, currency))
+      throw createHttpError(403, 'Invalid Currency');
 
     const business = await prisma.business.create({
       data: {
@@ -25,6 +22,9 @@ class BusinessService {
     });
     return business;
   }
+}
+function isValidCurrency(currencies: Currency[], currency: string): boolean {
+  return currencies.some((code: Currency) => code.cc === currency);
 }
 
 export default BusinessService;
