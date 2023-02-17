@@ -6,3 +6,7 @@ export interface createBusinessDto {
 export interface createBusinessWithUserDto extends createBusinessDto {
   userId: number;
 }
+
+export updateBusinessDto {
+  
+}

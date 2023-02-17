@@ -1,14 +1,11 @@
-import {
-  Router,
-  Request,
-  Response,
-  NextFunction,
-  RequestHandler,
-} from 'express';
+import { Router, Response, NextFunction } from 'express';
+import createHttpError from 'http-errors';
 import { AuthRequest } from '../interfaces/auth.interfaces';
 import authenticate from '../middleware/authenticate';
+import authorizationMiddleware from '../middleware/authorize';
 import prisma from '../prisma';
 import BusinessService from '../services/BusinessService';
+
 export default Router()
   .post(
     '/',
@@ -16,15 +13,22 @@ export default Router()
     // @ts-ignore
     [authenticate],
     async (req: AuthRequest, res: Response, next: NextFunction) => {
-      console.log(req.body);
-
       try {
         const user = req.user;
-        const business = await BusinessService.createBusiness({
-          userId: Number(user.id),
-          ...req.body,
-        });
-        res.json(business);
+
+        if (Array.isArray(req.body)) {
+          const businesses = await BusinessService.createManyBusinesses(
+            Number(user.id),
+            req.body
+          );
+          res.json(businesses);
+        } else {
+          const business = await BusinessService.createBusiness({
+            userId: Number(user.id),
+            ...req.body,
+          });
+          res.json(business);
+        }
       } catch (error) {
         next(error);
       }
@@ -46,6 +50,42 @@ export default Router()
           },
         });
         res.json(businesses);
+      } catch (error) {
+        next(error);
+      }
+    }
+  )
+  .put(
+    '/:id',
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    [authenticate, new authorizationMiddleware('business').authorize],
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    async (req: AuthRequest, res: Response, next: NextFunction) => {
+      try {
+        const { id } = req.params;
+        const data = req.body;
+        const user = req.user;
+
+        const existingBusiness = await prisma.business.findUnique({
+          where: {
+            id: Number(id),
+          },
+        });
+
+        if (existingBusiness && existingBusiness.userId !== user.id) {
+          throw createHttpError(401, 'Not Authorized');
+        }
+
+        const business = 'business';
+
+        await prisma[business].findFirst({ where: { id: 1 } });
+        const updatedBusiness = await prisma.business.update({
+          where: { id: Number(id) },
+          data,
+        });
+        res.json(updatedBusiness);
       } catch (error) {
         next(error);
       }
