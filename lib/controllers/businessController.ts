@@ -1,6 +1,6 @@
-import { Router, Response, NextFunction } from 'express';
+import { Prisma } from '@prisma/client';
+import { Router, Response, NextFunction, Request } from 'express';
 import createHttpError from 'http-errors';
-import { AuthRequest } from '../interfaces/auth.interfaces';
 import authenticate from '../middleware/authenticate';
 import authorize from '../middleware/authorize';
 import prisma from '../prisma';
@@ -9,10 +9,8 @@ import BusinessService from '../services/BusinessService';
 export default Router()
   .post(
     '/',
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
     [authenticate],
-    async (req: AuthRequest, res: Response, next: NextFunction) => {
+    async (req: Request, res: Response, next: NextFunction) => {
       try {
         const user = req.user;
 
@@ -36,10 +34,8 @@ export default Router()
   )
   .get(
     '/user_businesses',
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
     [authenticate],
-    async (req: AuthRequest, res: Response, next: NextFunction) => {
+    async (req: Request, res: Response, next: NextFunction) => {
       try {
         const user = req.user;
         const businesses = await prisma.business.findMany({
@@ -57,12 +53,8 @@ export default Router()
   )
   .put(
     '/:id',
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
     [authenticate, authorize('business')],
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    async (req: AuthRequest, res: Response, next: NextFunction) => {
+    async (req: Request, res: Response, next: NextFunction) => {
       try {
         const { id } = req.params;
         const data = req.body;

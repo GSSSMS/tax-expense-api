@@ -1,11 +1,11 @@
 import currencyCodes from '../data/currency';
 import { Business } from '@prisma/client';
 import prisma from '../prisma';
-import { Currency } from '../interfaces/currency.interfaces';
+import { Currency } from '../types/currency.interfaces';
 import {
   createBusinessDto,
   createBusinessWithUserDto,
-} from '../dtos/business.dto';
+} from '../types/business.dto';
 import createHttpError from 'http-errors';
 import { Prisma } from '@prisma/client';
 class BusinessService {

@@ -1,5 +1,5 @@
 import { User } from '@prisma/client';
-import { createBusinessWithUserDto } from '../../lib/dtos/business.dto';
+import { createBusinessWithUserDto } from '../../lib/types/business.dto';
 import { faker } from '@faker-js/faker';
 function generateMockBusinesses(
   number: number,

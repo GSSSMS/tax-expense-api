@@ -2,7 +2,7 @@ import prisma from '../lib/prisma';
 import app from '../lib/app';
 import request from 'supertest';
 import { truncate } from './test-utils/truncate';
-import { createUserDto } from '../lib/dtos/users.dto';
+import { createUserDto } from '../lib/types/users.dto';
 import { registerAndLogin } from './test-utils/registerAndLogin';
 const mockUser: createUserDto = {
   email: 'test@test1.com',

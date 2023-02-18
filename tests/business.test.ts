@@ -2,9 +2,9 @@ import request from 'supertest';
 import { truncate } from './test-utils/truncate';
 import prisma from '../lib/prisma';
 import app from '../lib/app';
-import { createUserDto } from '../lib/dtos/users.dto';
+import { createUserDto } from '../lib/types/users.dto';
 import { registerAndLogin } from './test-utils/registerAndLogin';
-import { createBusinessDto } from '../lib/dtos/business.dto';
+import { createBusinessDto } from '../lib/types/business.dto';
 import {
   generateMockBusiness,
   generateMockBusinesses,

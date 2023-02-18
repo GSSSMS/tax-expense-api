@@ -1,11 +1,10 @@
 import prisma from '../prisma';
 import createHttpError from 'http-errors';
-import { Response, NextFunction } from 'express';
-import { AuthRequest } from '../interfaces/auth.interfaces';
+import { Response, NextFunction, Request } from 'express';
 
 type ResourceName = 'business';
 const authorize = (resourceName: ResourceName) => {
-  return async (req: AuthRequest, res: Response, next: NextFunction) => {
+  return async (req: Request, res: Response, next: NextFunction) => {
     try {
       const user = req.user;
       const { id } = req.params;
