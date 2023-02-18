@@ -10,7 +10,7 @@ const app: Express = express();
 
 // Built in middleware
 app.use(express.json());
-app.use(morgan('combined'));
+app.use(morgan('tiny'));
 app.use(cookieParser());
 
 // App routes

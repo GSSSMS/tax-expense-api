@@ -57,21 +57,7 @@ export default Router()
       try {
         const { id } = req.params;
         const data = req.body;
-        const user = req.user;
 
-        const existingBusiness = await prisma.business.findUnique({
-          where: {
-            id: Number(id),
-          },
-        });
-
-        if (existingBusiness && existingBusiness.userId !== user?.id) {
-          throw createHttpError(401, 'Not Authorized');
-        }
-
-        const business = 'business';
-
-        await prisma[business].findFirst({ where: { id: 1 } });
         const updatedBusiness = await prisma.business.update({
           where: { id: Number(id) },
           data,
