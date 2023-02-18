@@ -2,7 +2,7 @@ import { Router, Response, NextFunction } from 'express';
 import createHttpError from 'http-errors';
 import { AuthRequest } from '../interfaces/auth.interfaces';
 import authenticate from '../middleware/authenticate';
-import authorizationMiddleware from '../middleware/authorize';
+import authorize from '../middleware/authorize';
 import prisma from '../prisma';
 import BusinessService from '../services/BusinessService';
 
@@ -59,7 +59,7 @@ export default Router()
     '/:id',
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    [authenticate, new authorizationMiddleware('business').authorize],
+    [authenticate, authorize('business')],
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     async (req: AuthRequest, res: Response, next: NextFunction) => {

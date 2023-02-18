@@ -25,7 +25,7 @@ function generateMockBusinesses(
 
 const generateMockBusiness = (
   userId: number,
-  currency: string
+  currency = 'USD'
 ): createBusinessWithUserDto => {
   const name = faker.company.name();
   return {

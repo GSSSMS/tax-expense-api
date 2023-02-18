@@ -104,10 +104,24 @@ describe('business-routes', () => {
 
     const res = await agent.put(`/businesses/${business.id}`).send({
       name: 'New Business',
-      currency: 'ZZZ',
     });
 
     expect(res.status).toBe(200);
     expect(res.body).toEqual({ ...business, name: 'New Business' });
+  });
+
+  it('UPDATE /business/:id should only update a users business', async () => {
+    const secondaryUser = await registerAndLogin(mockUser, agent);
+
+    const secondaryBusiness = await prisma.business.create({
+      data: generateMockBusiness(secondaryUser.id),
+    });
+
+    await registerAndLogin(mockUser2, agent);
+
+    const res = await agent
+      .put(`/businesses/${secondaryBusiness.id}`)
+      .send({ name: 'Not my business' });
+    expect(res.status).toBe(401);
   });
 });
