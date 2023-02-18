@@ -9,6 +9,7 @@ const authorize = (resourceName: ResourceName) => {
       const user = req.user;
       const { id } = req.params;
       if (req.method === 'PUT' || req.method == 'DELETE') {
+        if (!user) throw createHttpError(401, 'Must be logged in');
         const item = await prisma[resourceName].findUnique({
           where: { id: Number(id) },
         });

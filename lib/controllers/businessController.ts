@@ -1,4 +1,3 @@
-import { Prisma } from '@prisma/client';
 import { Router, Response, NextFunction, Request } from 'express';
 import createHttpError from 'http-errors';
 import authenticate from '../middleware/authenticate';
@@ -16,13 +15,13 @@ export default Router()
 
         if (Array.isArray(req.body)) {
           const businesses = await BusinessService.createManyBusinesses(
-            Number(user.id),
+            Number(user?.id),
             req.body
           );
           res.json(businesses);
         } else {
           const business = await BusinessService.createBusiness({
-            userId: Number(user.id),
+            userId: Number(user?.id),
             ...req.body,
           });
           res.json(business);
@@ -41,7 +40,7 @@ export default Router()
         const businesses = await prisma.business.findMany({
           where: {
             userId: {
-              equals: user.id,
+              equals: user?.id,
             },
           },
         });
@@ -66,7 +65,7 @@ export default Router()
           },
         });
 
-        if (existingBusiness && existingBusiness.userId !== user.id) {
+        if (existingBusiness && existingBusiness.userId !== user?.id) {
           throw createHttpError(401, 'Not Authorized');
         }
 

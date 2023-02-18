@@ -1,3 +1,5 @@
+import { UserSelect } from './users.interfaces';
+
 declare global {
   namespace NodeJS {
     interface ProcessEnv {
@@ -13,7 +15,7 @@ declare global {
 declare global {
   namespace Express {
     interface Request {
-      user?: any;
+      user?: UserSelect;
     }
   }
 }
