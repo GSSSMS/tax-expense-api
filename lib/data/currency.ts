@@ -1,4 +1,4 @@
-import { Currency } from '../interfaces/currency.interfaces';
+import { Currency } from '../types/currency.interfaces';
 const data: Currency[] = [
   { cc: 'AED', symbol: '\u062f.\u0625;', name: 'UAE dirham' },
   { cc: 'AFN', symbol: 'Afs', name: 'Afghan afghani' },

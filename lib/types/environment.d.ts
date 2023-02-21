@@ -1,3 +1,5 @@
+import { UserSelect } from './users.interfaces';
+
 declare global {
   namespace NodeJS {
     interface ProcessEnv {
@@ -6,6 +8,14 @@ declare global {
       SALT_ROUNDS: string;
       JWT_SECRET;
       COOKIE_NAME;
+    }
+  }
+}
+
+declare global {
+  namespace Express {
+    interface Request {
+      user?: UserSelect;
     }
   }
 }

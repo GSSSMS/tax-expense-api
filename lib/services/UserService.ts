@@ -1,9 +1,9 @@
 import { hash, compareSync } from 'bcrypt';
 import { sign } from 'jsonwebtoken';
 import prisma from '../prisma';
-import { createUserDto } from '../dtos/users.dto';
+import { createUserDto } from '../types/users.dto';
 import createError from 'http-errors';
-import { UserSelect } from '../interfaces/users.interfaces';
+import { UserSelect } from '../types/users.interfaces';
 import { JWT_SECRET } from '../config';
 export default class UserService {
   static async signUpUser({
