@@ -1,6 +1,6 @@
 import request from 'supertest';
 import { truncate } from './test-utils/truncate';
-import prisma from '../lib/prisma';
+import prisma from './test-utils/testPrisma';
 import app from '../lib/app';
 import { createUserDto } from '../lib/types/users.dto';
 import { registerAndLogin } from './test-utils/registerAndLogin';

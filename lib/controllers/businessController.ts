@@ -1,5 +1,4 @@
 import { Router, Response, NextFunction, Request } from 'express';
-import createHttpError from 'http-errors';
 import authenticate from '../middleware/authenticate';
 import authorize from '../middleware/authorize';
 import prisma from '../prisma';

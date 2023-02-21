@@ -5,9 +5,7 @@ export const errorHandler: ErrorRequestHandler = (err, req, res) => {
 
   res.status(status);
 
-  if (process.env.NODE_ENV !== 'test') {
-    console.error(err);
-  }
+  console.error(err);
 
   res.send({
     status,

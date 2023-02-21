@@ -15,6 +15,7 @@ export default (req: Request, res: Response, next: NextFunction) => {
 
     next();
   } catch (error) {
+    console.error(error);
     throw createHttpError(401, 'Authentication failed');
   }
 };

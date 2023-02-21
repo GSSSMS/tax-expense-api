@@ -1,4 +1,4 @@
-import prisma from '../lib/prisma';
+import prisma from './test-utils/testPrisma';
 import app from '../lib/app';
 import request from 'supertest';
 import { truncate } from './test-utils/truncate';

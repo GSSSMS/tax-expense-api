@@ -5,6 +5,7 @@ import { notFoundHandler } from './middleware/not-found';
 import { errorHandler } from './middleware/error';
 import usersController from './controllers/usersController';
 import businessController from './controllers/businessController';
+import expenseController from './controllers/expenseController';
 
 const app: Express = express();
 
@@ -16,6 +17,7 @@ app.use(cookieParser());
 // App routes
 app.use('/users', usersController);
 app.use('/businesses', businessController);
+app.use('/expenses', expenseController);
 // Error handling & 404 middleware for when
 // a request doesn't match any app routes
 app.use(notFoundHandler);
