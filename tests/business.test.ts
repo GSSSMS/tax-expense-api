@@ -44,7 +44,7 @@ describe('business-routes', () => {
     });
   });
 
-  it('#POST returns a 403 if currency is invalid', async () => {
+  it('#POST returns a 400 if currency is invalid', async () => {
     await registerAndLogin(mockUser, agent);
 
     const res = await agent.post('/businesses').send({
@@ -52,15 +52,15 @@ describe('business-routes', () => {
       currency: 'ABC',
     });
 
-    expect(res.status).toBe(403);
+    expect(res.status).toBe(400);
   });
 
-  it('creates multiple businesses', async () => {
+  it('#POST /business/many creates multiple businesses', async () => {
     const user = await registerAndLogin(mockUser, agent);
 
     const mockBusinesses = generateMockBusinesses(5, [user]);
 
-    const res = await agent.post('/businesses').send(mockBusinesses);
+    const res = await agent.post('/businesses/many').send(mockBusinesses);
     expect(res.status).toBe(200);
     expect(res.body.count).toBe(5);
 
@@ -71,6 +71,16 @@ describe('business-routes', () => {
     expect(businessesRes.body).toEqual(
       expect.arrayContaining(mockBusinessesWithIds)
     );
+  });
+
+  it('#POST /business/many returns a 400 if currency is invalid', async () => {
+    const user = await registerAndLogin(mockUser, agent);
+
+    const mockBusinesses = generateMockBusinesses(5, [user]);
+    mockBusinesses[0].currency = 'ABC';
+
+    const res = await agent.post('/businesses/many').send(mockBusinesses);
+    expect(res.status).toBe(400);
   });
 
   it('#GET /businesses/user_business returns all of a users businesses', async () => {
@@ -108,6 +118,32 @@ describe('business-routes', () => {
 
     expect(res.status).toBe(200);
     expect(res.body).toEqual({ ...business, name: 'New Business' });
+  });
+  it('UPDATE /business/:id should return a 400 if name is invalid', async () => {
+    const user = await registerAndLogin(mockUser, agent);
+
+    const newBusiness = generateMockBusiness(user.id, 'USD');
+
+    const business = await prisma.business.create({ data: newBusiness });
+
+    const res = await agent.put(`/businesses/${business.id}`).send({
+      name: '',
+    });
+
+    expect(res.status).toBe(400);
+  });
+  it('UPDATE /business/:id should return a 400 if currency is invalid', async () => {
+    const user = await registerAndLogin(mockUser, agent);
+
+    const newBusiness = generateMockBusiness(user.id, 'USD');
+
+    const business = await prisma.business.create({ data: newBusiness });
+
+    const res = await agent.put(`/businesses/${business.id}`).send({
+      currency: 'ABC',
+    });
+
+    expect(res.status).toBe(400);
   });
 
   it('UPDATE /business/:id should only update a users business', async () => {

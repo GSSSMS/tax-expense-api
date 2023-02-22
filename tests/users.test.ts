@@ -27,6 +27,22 @@ describe('user-auth-routes', () => {
     });
   });
 
+  it('#POST returns 400 if email is invalid', async () => {
+    const res = await request(app).post('/users').send({
+      email: 'test',
+      password: '123456',
+    });
+    expect(res.status).toBe(400);
+  });
+
+  it('#POST returns 400 if password is invalid', async () => {
+    const res = await request(app).post('/users').send({
+      email: 'validemail@gmail.com',
+      password: '123',
+    });
+    expect(res.status).toBe(400);
+  });
+
   it('#GET/#id returns a user', async () => {
     const user = await registerAndLogin(mockUser, agent);
     const res = await agent.get(`/users/${user.id}`);
@@ -35,12 +51,13 @@ describe('user-auth-routes', () => {
     expect(res.body).toEqual(user);
   });
 
-  it('#GET/:id returns 401 if not logged in', async () => {
+  it('#GET/:id returns 404 if not logged in', async () => {
     const user = await prisma.user.create({
       data: mockUser,
     });
+
     const res = await request(app).get(`/users/${user.id}`);
-    expect(res.status).toBe(401);
+    expect(res.status).toBe(404);
   });
 
   it('logs in a user', async () => {
@@ -58,6 +75,6 @@ describe('user-auth-routes', () => {
       message: 'Sign out successful',
     });
     const res = await agent.get(`/users/${user.id}`);
-    expect(res.status).toBe(401);
+    expect(res.status).toBe(404);
   });
 });
