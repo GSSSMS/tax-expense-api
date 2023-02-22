@@ -1,13 +1,11 @@
-// eslint-disable-next-line no-unused-vars
 import { ErrorRequestHandler } from 'express';
-export const errorHandler: ErrorRequestHandler = (err, req, res) => {
+// eslint-disable-next-line no-unused-vars
+export const errorHandler: ErrorRequestHandler = (err, _req, res, _next) => {
   const status = err.status || 500;
 
   res.status(status);
 
-  if (process.env.NODE_ENV !== 'test') {
-    console.error(err);
-  }
+  console.error(err);
 
   res.send({
     status,
