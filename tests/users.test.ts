@@ -1,4 +1,4 @@
-import prisma from './test-utils/testPrisma';
+import prisma from '../lib/prisma';
 import app from '../lib/app';
 import request from 'supertest';
 import { truncate } from './test-utils/truncate';
@@ -35,6 +35,11 @@ describe('user-auth-routes', () => {
     expect(res.status).toBe(400);
   });
 
+  it.only('#POST returns 400 if email is already in use', async () => {
+    await request(app).post('/users').send(mockUser);
+    const res = await request(app).post('/users').send(mockUser);
+    expect(res.status).toBe(400);
+  });
   it('#POST returns 400 if password is invalid', async () => {
     const res = await request(app).post('/users').send({
       email: 'validemail@gmail.com',
