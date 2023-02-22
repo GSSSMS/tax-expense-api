@@ -1,4 +1,3 @@
-import { isValidCurrency } from '../utils/currencyUtils';
 import { Business } from '@prisma/client';
 import prisma from '../prisma';
 
@@ -6,7 +5,6 @@ import {
   createBusinessDto,
   createBusinessWithUserDto,
 } from '../types/business.dto';
-import createHttpError from 'http-errors';
 import { Prisma } from '@prisma/client';
 class BusinessService {
   static async createBusiness({
@@ -14,9 +12,6 @@ class BusinessService {
     name,
     currency,
   }: createBusinessWithUserDto): Promise<Business> {
-    if (!isValidCurrency(currency))
-      throw createHttpError(403, 'Invalid Currency');
-
     const business = await prisma.business.create({
       data: {
         name,
@@ -31,11 +26,11 @@ class BusinessService {
     userId: number,
     businesses: createBusinessDto[]
   ): Promise<Prisma.BatchPayload> {
-    if (
-      !businesses.every((businesses) => isValidCurrency(businesses.currency))
-    ) {
-      throw createHttpError(403, 'Invalid Currency');
-    }
+    // if (
+    //   !businesses.every((businesses) => isValidCurrency(businesses.currency))
+    // ) {
+    //   throw createHttpError(403, 'Invalid Currency');
+    // }
 
     const businessesWithUserIds = businesses.map((business) => ({
       ...business,

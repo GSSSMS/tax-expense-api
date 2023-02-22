@@ -1,5 +1,5 @@
 import { Currency } from '../types/currency.interfaces';
-const data: Currency[] = [
+const currencies: Currency[] = [
   { cc: 'AED', symbol: '\u062f.\u0625;', name: 'UAE dirham' },
   { cc: 'AFN', symbol: 'Afs', name: 'Afghan afghani' },
   { cc: 'ALL', symbol: 'L', name: 'Albanian lek' },
@@ -162,4 +162,6 @@ const data: Currency[] = [
   { cc: 'ZWR', symbol: 'Z$', name: 'Zimbabwean dollar' },
 ];
 
-export default data;
+const currencyCodes = currencies.map(({ cc }) => cc);
+
+export { currencies, currencyCodes };
