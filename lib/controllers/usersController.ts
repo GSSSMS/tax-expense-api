@@ -26,26 +26,7 @@ export default Router()
       }
     }
   )
-  .get(
-    '/:id',
-    authenticate,
-    async (req: Request, res: Response, next: NextFunction) => {
-      try {
-        const { id } = req.params;
-        const user = await prisma.user.findUnique({
-          where: {
-            id: Number(id),
-          },
-          select: selectUser,
-        });
 
-        if (!user) throw createHttpError(404, 'User not Found');
-        res.json(user);
-      } catch (error) {
-        next(error);
-      }
-    }
-  )
   .post(
     '/sessions',
     async (req: Request, res: Response, next: NextFunction) => {
@@ -78,5 +59,3 @@ export default Router()
       }
     }
   );
-
-const selectUser: Prisma.UserSelect = { id: true, email: true };

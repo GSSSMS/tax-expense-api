@@ -48,23 +48,6 @@ describe('user-auth-routes', () => {
     expect(res.status).toBe(400);
   });
 
-  it('#GET/#id returns a user', async () => {
-    const user = await registerAndLogin(mockUser, agent);
-    const res = await agent.get(`/users/${user.id}`);
-
-    expect(res.status).toBe(200);
-    expect(res.body).toEqual(user);
-  });
-
-  it('#GET/:id returns 404 if not logged in', async () => {
-    const user = await prisma.user.create({
-      data: mockUser,
-    });
-
-    const res = await request(app).get(`/users/${user.id}`);
-    expect(res.status).toBe(404);
-  });
-
   it('logs in a user', async () => {
     await request(app).post('/users').send(mockUser);
     const res = await agent.post('/users/sessions').send(mockUser);
