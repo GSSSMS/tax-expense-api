@@ -50,6 +50,7 @@ enum Frequency {
   DAILY
   MONTHLY
   ONETIME
+  QUARTERLY
 }
 
 enum Category {

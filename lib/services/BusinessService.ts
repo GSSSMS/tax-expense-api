@@ -6,7 +6,6 @@ import {
   createBusinessWithUserDto,
 } from '../types/business.dto';
 import { Prisma } from '@prisma/client';
-import CurrencyService from './CurrencyService';
 class BusinessService {
   static async createBusiness({
     userId,

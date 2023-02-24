@@ -1,23 +1,24 @@
 import { faker } from '@faker-js/faker';
 import { Category, Frequency } from '@prisma/client';
+import { userInfo } from 'os';
 
 interface MockBusiness {
-  userId: number;
   businessId: number;
-  date?: Date;
-  description?: string;
-  payee?: string;
-  amount?: number;
-  memo?: string;
-  frequency?: Frequency;
-  category?: Category;
-  currency?: string;
-  amortized?: boolean;
-  imageUrl?: string | null;
+  userId: number;
+  date?: any;
+  description?: any;
+  payee?: any;
+  amount?: any;
+  memo?: any;
+  frequency?: any;
+  category?: any;
+  currency?: any;
+  amortized?: any;
+  imageUrl?: any;
 }
 const generateMockExpense = (mockBusiness: MockBusiness) => {
   const data = {
-    date: faker.date.past(),
+    date: new Date(faker.date.past()),
     description: faker.random.words(5),
     payee: faker.company.name(),
     amount: Number(faker.commerce.price()),
@@ -26,7 +27,8 @@ const generateMockExpense = (mockBusiness: MockBusiness) => {
     category: Category.GENERAL,
     currency: 'USD',
     amortized: false,
-    imageUrl: null,
+    imageUrl: undefined,
+    userId: undefined,
   };
 
   return { ...data, ...mockBusiness };
