@@ -63,6 +63,9 @@ export default Router()
       }
     }
   )
+  .get('/me', authenticate, async (req: Request, res: Response) => {
+    res.json(req.user);
+  })
   .delete(
     '/sessions',
     async (req: Request, res: Response, next: NextFunction) => {
