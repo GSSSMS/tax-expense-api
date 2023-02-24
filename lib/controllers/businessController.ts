@@ -4,6 +4,7 @@ import authorize from '../middleware/authorize';
 import validate from '../middleware/validate';
 import prisma from '../prisma';
 import BusinessService from '../services/BusinessService';
+import { ModelName } from '../types/prisma.interfaces';
 import {
   createBusinessValidation,
   createManyBusinessesValidation,
@@ -62,15 +63,17 @@ export default Router()
       }
     }
   )
-  .put(
+  .patch(
     '/:id',
-    [authenticate, authorize('business'), validate(updateBusinessValidation)],
+    [
+      authenticate,
+      authorize(ModelName.BUSINESS),
+      validate(updateBusinessValidation),
+    ],
     async (req: Request, res: Response, next: NextFunction) => {
       try {
         const { id } = req.params;
         const data = req.body;
-
-        console.log(data);
 
         const updatedBusiness = await prisma.business.update({
           where: { id: Number(id) },

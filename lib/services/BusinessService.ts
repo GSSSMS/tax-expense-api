@@ -32,15 +32,21 @@ class BusinessService {
     //   throw createHttpError(403, 'Invalid Currency');
     // }
 
-    const businessesWithUserIds = businesses.map((business) => ({
-      ...business,
-      userId,
-    }));
+    const businessesWithUserIds = this.addUserToBusinesses(businesses, userId);
+
     const newBusinesses = await prisma.business.createMany({
       data: businessesWithUserIds,
     });
 
     return newBusinesses;
+  }
+
+  static addUserToBusinesses(businesses: createBusinessDto[], userId: number) {
+    const businessesWithUserIds = businesses.map((business) => ({
+      ...business,
+      userId,
+    }));
+    return businessesWithUserIds;
   }
 
   // static async updateBusiness(id: number, data: ): Promise<Business> {

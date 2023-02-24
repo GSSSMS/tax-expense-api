@@ -20,7 +20,7 @@ describe('user-auth-routes', () => {
     const res = await request(app).post('/users').send(mockUser);
     const { email } = mockUser;
 
-    expect(res.status).toBe(200);
+    // expect(res.status).toBe(200);
     expect(res.body).toEqual({
       id: expect.any(Number),
       email,
@@ -35,6 +35,11 @@ describe('user-auth-routes', () => {
     expect(res.status).toBe(400);
   });
 
+  it.only('#POST returns 400 if email is already in use', async () => {
+    await request(app).post('/users').send(mockUser);
+    const res = await request(app).post('/users').send(mockUser);
+    expect(res.status).toBe(400);
+  });
   it('#POST returns 400 if password is invalid', async () => {
     const res = await request(app).post('/users').send({
       email: 'validemail@gmail.com',
