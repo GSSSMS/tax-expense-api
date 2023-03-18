@@ -6,6 +6,8 @@ import createHttpError from 'http-errors';
 export default (req: Request, res: Response, next: NextFunction) => {
   try {
     const cookie = req.cookies && req.cookies[COOKIE_NAME];
+    console.log('COOKIE', cookie);
+
     if (!cookie) throw createHttpError(404, 'Must be signed in to continue');
 
     const user = verify(cookie, JWT_SECRET) as UserSelect;

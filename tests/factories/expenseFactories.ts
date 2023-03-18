@@ -1,10 +1,10 @@
 import { faker } from '@faker-js/faker';
 import { Category, Frequency } from '@prisma/client';
-import { userInfo } from 'os';
+import { createBusinessWithUserDto } from '../../lib/types/expense.types';
 
 interface MockBusiness {
   businessId: number;
-  userId: number;
+  userId?: number;
   date?: any;
   description?: any;
   payee?: any;
@@ -16,7 +16,9 @@ interface MockBusiness {
   amortized?: any;
   imageUrl?: any;
 }
-const generateMockExpense = (mockBusiness: MockBusiness) => {
+const generateMockExpense = (
+  mockBusiness: MockBusiness
+): createBusinessWithUserDto => {
   const data = {
     date: new Date(faker.date.past()),
     description: faker.random.words(5),
@@ -31,7 +33,24 @@ const generateMockExpense = (mockBusiness: MockBusiness) => {
     userId: undefined,
   };
 
-  return { ...data, ...mockBusiness };
+  return { ...data, ...mockBusiness } as createBusinessWithUserDto;
 };
 
-export { generateMockExpense };
+const generateMockExpenses = (
+  number: number,
+  mockBusinessId: number[],
+  userId: number
+) => {
+  const expenses = [...Array(number)].map(() => {
+    const businessId: number =
+      mockBusinessId.length > 1
+        ? mockBusinessId[Math.floor(Math.random() * mockBusinessId.length)]
+        : mockBusinessId[0];
+
+    return generateMockExpense({ businessId, userId });
+  });
+
+  return expenses;
+};
+
+export { generateMockExpense, generateMockExpenses };
